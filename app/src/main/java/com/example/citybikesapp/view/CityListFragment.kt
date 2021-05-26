@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_city_list.*
 
 class CityListFragment: Fragment() {
     private lateinit var basicViewModel: BasicViewModel
-    private val locationList = mutableListOf<Location>()
+    private val locationList = mutableListOf<Location>() //lista location
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +31,7 @@ class CityListFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_city_list, container, false)
 
         basicViewModel = ViewModelProvider(this).get(BasicViewModel::class.java)
-
-        basicViewModel.setAPIResponse()
+        basicViewModel.setAPIResponse() //pobranie i ustawienie zawartości API jako APIResponse
 
         return view
     }
@@ -40,21 +39,25 @@ class CityListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //obserwowanie odpowiedzi z API
         basicViewModel.apiResponse.observe(viewLifecycleOwner, Observer { item ->
+            //dodanie wszystkich network z odpowiedzi z API do listy
             for (x in item.networks){
                 locationList.add(x.location)
             }
-            locationList.sortBy{it.country}
-            setAdapter()
+            locationList.sortBy{it.city}
+            locationList.sortBy{it.country} //sortowanie po kraju i mieście
+            setAdapter() //przekazanie danych do adaptera
         })
     }
 
     private fun setAdapter(){
+        //ustawienia adaptera i recyclerView
         val adapter = CityListAdapter()
         val recyclerView = cityListRecyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-        adapter.setData(locationList)
+        adapter.setData(locationList) //przekazanie danych do adaptera
     }
 
 }

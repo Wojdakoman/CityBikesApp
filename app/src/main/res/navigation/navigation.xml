@@ -9,5 +9,21 @@
         android:id="@+id/cityListFragment"
         android:name="com.example.citybikesapp.view.CityListFragment"
         android:label="CityListFragment"
-        tools:layout="@layout/fragment_city_list"/>
+        tools:layout="@layout/fragment_city_list">
+        <action
+            android:id="@+id/action_cityListFragment_to_cityDetailFragment"
+            app:destination="@id/cityDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cityDetailFragment"
+        android:name="com.example.citybikesapp.view.CityDetailFragment"
+        android:label="CityDetailFragment"
+        tools:layout="@layout/fragment_city_detail">
+        <action
+            android:id="@+id/action_cityDetailFragment_to_cityListFragment"
+            app:destination="@id/cityListFragment"/>
+        <argument
+            android:name="location"
+            app:argType="com.example.citybikesapp.model.entity.Location" />
+    </fragment>
 </navigation>

@@ -3,13 +3,15 @@ package com.example.citybikesapp.viewmodel.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citybikesapp.R
 import com.example.citybikesapp.model.entity.Location
+import com.example.citybikesapp.view.CityListFragmentDirections
 import kotlinx.android.synthetic.main.city_list_row.view.*
 
 class CityListAdapter: RecyclerView.Adapter<CityListAdapter.MyViewHolder>() {
-    private var list = emptyList<Location>()
+    private var list = emptyList<Location>() //lista location
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
@@ -25,12 +27,19 @@ class CityListAdapter: RecyclerView.Adapter<CityListAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        //przypisanie danych
         holder.itemView.countryCode.text = list[position].country
         holder.itemView.cityName.text = list[position].city
+
+        //kliknięcie miasta
+        holder.itemView.setOnClickListener {
+            val action = CityListFragmentDirections.actionCityListFragmentToCityDetailFragment(list[position])
+            holder.itemView.findNavController().navigate(action)
+        }
     }
 
     fun setData(data: List<Location>){
-        this.list = data
+        this.list = data //ustawienie listy location
         notifyDataSetChanged()
     }
 }

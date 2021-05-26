@@ -15,8 +15,9 @@ import kotlinx.coroutines.launch
 class BasicViewModel(application: Application): AndroidViewModel(application) {
     private val repository: BikesRepository = BikesRepository(BikesAPI())
 
-    var apiResponse = MutableLiveData<APIResponse>()
+    var apiResponse = MutableLiveData<APIResponse>() //odpowiedź z API
 
+    //ustawienie odpowiedzi z API
     fun setAPIResponse(){
         val response = MutableLiveData<APIResponse>()
         viewModelScope.launch(Dispatchers.IO) {
