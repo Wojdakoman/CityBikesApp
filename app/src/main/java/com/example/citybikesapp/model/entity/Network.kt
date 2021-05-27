@@ -7,7 +7,9 @@ data class Network(
     private val any: Any,
     val location: Location,
     val name: String,
-    val id: String
+    val id: String,
+    val href: String,
+    val stations: List<Station>? = null
 ) {
     val company: List<String>
     get() =

@@ -1,14 +1,16 @@
 package com.example.citybikesapp.model.api
 
 import com.example.citybikesapp.model.entity.APIResponse
+import com.example.citybikesapp.model.entity.Network
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = "https://api.citybik.es/v2/"
+private const val BASE_URL = "https://api.citybik.es/"
 
 interface BikesAPI {
     companion object {
@@ -23,6 +25,9 @@ interface BikesAPI {
         }
     }
 
-    @GET("networks")
+    @GET("v2/networks")
     suspend fun getAll(): Response<APIResponse>
+
+    @GET("{href}")
+    suspend fun getNetwork(@Path("href") href: String): Response<Network>
 }
