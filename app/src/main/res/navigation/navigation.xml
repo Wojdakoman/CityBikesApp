@@ -26,4 +26,9 @@
             android:name="location"
             app:argType="com.example.citybikesapp.model.entity.Location" />
     </fragment>
+    <fragment
+        android:id="@+id/stationDetailFragment"
+        android:name="com.example.citybikesapp.view.StationDetailFragment"
+        android:label="fragment_station_detail"
+        tools:layout="@layout/fragment_station_detail" />
 </navigation>
