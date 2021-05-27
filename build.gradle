@@ -5,6 +5,7 @@ buildscript {
         navigation_version = "2.3.4"
         lifecycle_version = "2.3.1"
         retrofit_version = "2.9.0"
+        room_version = "2.3.0"
     }
     repositories {
         google()
