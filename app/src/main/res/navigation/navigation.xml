@@ -31,4 +31,9 @@
         android:name="com.example.citybikesapp.view.StationDetailFragment"
         android:label="fragment_station_detail"
         tools:layout="@layout/fragment_station_detail" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.citybikesapp.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>

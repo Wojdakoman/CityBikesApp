@@ -12,6 +12,7 @@
     <string name="company">Company</string>
     <string name="name">Name</string>
     <string name="stations">Stations</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Map Fragment -->
+    <string name="map">Map</string>
 </resources>
