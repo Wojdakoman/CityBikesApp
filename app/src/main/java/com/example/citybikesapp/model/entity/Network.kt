@@ -9,7 +9,7 @@ data class Network(
     val name: String,
     val id: String,
     val href: String,
-    val stations: List<Station>? = null
+    val stations: List<Station> = emptyList()
 ) {
     val company: List<String>
     get() =

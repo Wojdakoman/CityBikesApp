@@ -8,5 +8,6 @@ data class Location(
     val city: String,
     val country: String,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    var href: String? = null
 ) : Parcelable

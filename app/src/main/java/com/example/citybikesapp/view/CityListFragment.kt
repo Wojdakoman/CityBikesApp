@@ -43,6 +43,7 @@ class CityListFragment: Fragment() {
         basicViewModel.apiResponse.observe(viewLifecycleOwner, Observer { item ->
             //dodanie wszystkich network z odpowiedzi z API do listy
             for (x in item.networks){
+                x.location.href = x.href
                 locationList.add(x.location)
             }
             locationList.sortBy{it.city}

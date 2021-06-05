@@ -25,12 +25,19 @@
         <argument
             android:name="location"
             app:argType="com.example.citybikesapp.model.entity.Location" />
+        <action
+            android:id="@+id/action_cityDetailFragment_to_stationDetailFragment"
+            app:destination="@id/stationDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/stationDetailFragment"
         android:name="com.example.citybikesapp.view.StationDetailFragment"
-        android:label="fragment_station_detail"
-        tools:layout="@layout/fragment_station_detail" />
+        android:label="StationDetailFragment"
+        tools:layout="@layout/fragment_station_detail" >
+        <argument
+            android:name="station"
+            app:argType="com.example.citybikesapp.model.entity.Station" />
+    </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.citybikesapp.view.MapFragment"
