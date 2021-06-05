@@ -10,6 +10,8 @@ data class Station(
     @SerializedName("free_bikes")
     val freeBikes: Int,
     val name: String,
-    val timestamp: Date
+    val timestamp: Date,
+    val latitude: Double,
+    val longitude: Double
 ) {
 }

@@ -11,15 +11,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.citybikesapp.R
+import com.example.citybikesapp.model.entity.Station
 import com.example.citybikesapp.viewmodel.BasicViewModel
 import com.google.android.gms.location.*
-import kotlinx.android.synthetic.main.fragment_map.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 class MapFragment : Fragment() {
 
@@ -28,9 +32,12 @@ class MapFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private val PERMISSION_ID: Int = 1010
-    private val MAX_DISTANCE: Int = 1000
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
+    private val stationsNearby: ArrayList<Station> = arrayListOf()
+
+    private lateinit var mapFragment: SupportMapFragment
+    private lateinit var googleMap: GoogleMap
 
     private val locationCallback = object: LocationCallback(){
         override fun onLocationResult(locationResult: LocationResult) {
@@ -38,6 +45,9 @@ class MapFragment : Fragment() {
 
             latitude = lastLocation.latitude
             longitude = lastLocation.longitude
+            val currentLoc = LatLng(lastLocation.latitude, lastLocation.longitude)
+            googleMap.addMarker(MarkerOptions().position(currentLoc).title("My position"))
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLoc, 10f))
         }
     }
 
@@ -65,6 +75,9 @@ class MapFragment : Fragment() {
                     else{
                         longitude = location.longitude
                         latitude = location.latitude
+                        val currentLoc = LatLng(location.latitude, location.longitude)
+                        googleMap.addMarker(MarkerOptions().position(currentLoc).title("My position"))
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLoc, 10f))
                     }
 
                 }
@@ -89,10 +102,8 @@ class MapFragment : Fragment() {
             fusedLocationProviderClient!!.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
     }
 
-    private fun rad(x: Double) = (x * Math.PI) / 180
-
     private fun isStationNearby(stationLongitude: Double, stationLatitude: Double): Boolean{
-        return Math.abs(stationLatitude - latitude) < 0.1 && Math.abs(stationLongitude - longitude) < 0.1
+        return Math.abs(stationLatitude - latitude) < 0.15 && Math.abs(stationLongitude - longitude) < 0.15
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,7 +117,6 @@ class MapFragment : Fragment() {
         // Inflate the layout for this fragment
 
         basicViewModel = ViewModelProvider(requireActivity()).get(BasicViewModel::class.java)
-        basicViewModel.setAPIResponse()
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -116,20 +126,30 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        basicViewModel.apiResponse.observe(viewLifecycleOwner, {
-            basicViewModel.apiResponse.value.let {
-                var text: String = ""
-                for(i in basicViewModel.apiResponse.value?.networks!!){
-                    if(isStationNearby(stationLatitude = i.location.latitude, stationLongitude = i.location.longitude))
-                        text += isStationNearby(stationLatitude = i.location.latitude, stationLongitude = i.location.longitude).toString() + " " + i.location.city + " " + i.location.latitude.toString() + " " + i.location.longitude.toString() + " | " + latitude.toString() + " " + longitude.toString() + "\n"
-                }
 
-                var testTV = view.findViewById<TextView>(R.id.test)
-                testTV.text = text
+        mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        mapFragment.getMapAsync(OnMapReadyCallback {
+            googleMap = it
+
+            requestPermission()
+            getLastLocation()
+            basicViewModel.setAPIResponse()
+
+            basicViewModel.apiResponse.observe(viewLifecycleOwner, {
+                for(i in basicViewModel.apiResponse.value?.networks!!){
+                    if(isStationNearby(stationLatitude = i.location.latitude, stationLongitude = i.location.longitude)) {
+                        basicViewModel.getNetworkInfo(i.href)
+                    }
+                }
+            })
+
+            basicViewModel.network.observe(viewLifecycleOwner){
+                for(i in basicViewModel.network.value?.network?.stations!!){
+                    stationsNearby.add(i)
+                    val location = LatLng(i.latitude, i.longitude)
+                    googleMap.addMarker(MarkerOptions().position(location).title(i.name))
+                }
             }
         })
-
-        requestPermission()
-        getLastLocation()
     }
 }

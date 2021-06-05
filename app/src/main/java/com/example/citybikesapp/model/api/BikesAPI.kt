@@ -1,8 +1,10 @@
 package com.example.citybikesapp.model.api
 
 import com.example.citybikesapp.model.entity.APIResponse
+import com.example.citybikesapp.model.entity.APIResponse2
 import com.example.citybikesapp.model.entity.Network
 import okhttp3.OkHttpClient
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,5 +31,5 @@ interface BikesAPI {
     suspend fun getAll(): Response<APIResponse>
 
     @GET("{href}")
-    suspend fun getNetwork(@Path("href") href: String): Response<Network>
+    suspend fun getNetwork(@Path("href") href: String): Response<APIResponse2>
 }
