@@ -15,4 +15,5 @@
 
     <!-- Map Fragment -->
     <string name="map">Map</string>
+    <string name="freeBikes">Free bikes:</string>
 </resources>

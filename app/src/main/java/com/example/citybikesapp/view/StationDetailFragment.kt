@@ -1,11 +1,14 @@
 package com.example.citybikesapp.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.example.citybikesapp.R
+import kotlinx.android.synthetic.main.fragment_station_detail.*
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +24,7 @@ class StationDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val args by navArgs<StationDetailFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,31 @@ class StationDetailFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_station_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (args.station.extra.address != null && args.station.extra.address != "")
+        {
+            stationAddress.text = args.station.extra.address
+        }
+        else
+        {
+            stationAddress.text = args.station.name
+        }
+
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        val dateNow = Date(calendar.timeInMillis)
+        val difference = dateNow.time - args.station.timestamp.time
+        if (difference <= 10 * 60 * 1000)
+        {
+            freeBikesValue.text = args.station.freeBikes.toString()
+        }
+        else
+        {
+            freeBikesValue.text = "No fresh data!"
+        }
     }
 
     companion object {

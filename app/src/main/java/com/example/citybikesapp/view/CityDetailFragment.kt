@@ -7,17 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.citybikesapp.R
-import com.example.citybikesapp.model.entity.Location
 import com.example.citybikesapp.model.entity.Station
 import com.example.citybikesapp.viewmodel.BasicViewModel
-import com.example.citybikesapp.viewmodel.adapter.CityListAdapter
 import com.example.citybikesapp.viewmodel.adapter.StationListAdapter
 import kotlinx.android.synthetic.main.fragment_city_detail.*
-import kotlinx.android.synthetic.main.fragment_city_list.*
 
 class CityDetailFragment: Fragment() {
     private val args by navArgs<CityDetailFragmentArgs>()
@@ -46,7 +42,7 @@ class CityDetailFragment: Fragment() {
 
         val cityCountryString = args.location.city + ", " + args.location.country
         cityNameCountryCode.text = cityCountryString
-        latitudeValue.text = args.location.latitude.toString()
+        freeBikesValue.text = args.location.latitude.toString()
         longitudeValue.text = args.location.longitude.toString()
         basicViewModel.network.observe(viewLifecycleOwner, Observer { item ->
             stationList = item.network.stations as MutableList<Station>
