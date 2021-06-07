@@ -6,4 +6,5 @@ import com.example.citybikesapp.model.room.SearchDao
 class LocalRepository(
     private val searchDao: SearchDao,
     private val savedDao: SavedDao) {
+    suspend fun getIsFav() = true
 }
