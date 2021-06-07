@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_cityListFragment_to_cityDetailFragment"
             app:destination="@id/cityDetailFragment" />
+        <action
+            android:id="@+id/action_cityListFragment_to_listsFragment"
+            app:destination="@id/listsFragment" />
     </fragment>
     <fragment
         android:id="@+id/cityDetailFragment"
@@ -28,6 +31,9 @@
         <action
             android:id="@+id/action_cityDetailFragment_to_stationDetailFragment"
             app:destination="@id/stationDetailFragment" />
+        <action
+            android:id="@+id/action_cityDetailFragment_to_listsFragment"
+            app:destination="@id/listsFragment" />
     </fragment>
     <fragment
         android:id="@+id/stationDetailFragment"
@@ -37,10 +43,28 @@
         <argument
             android:name="station"
             app:argType="com.example.citybikesapp.model.entity.Station" />
+        <action
+            android:id="@+id/action_stationDetailFragment_to_listsFragment"
+            app:destination="@id/listsFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.citybikesapp.view.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/listsFragment"
+        android:name="com.example.citybikesapp.view.ListsFragment"
+        android:label="fragment_lists"
+        tools:layout="@layout/fragment_lists" >
+        <action
+            android:id="@+id/action_listsFragment_to_cityListFragment"
+            app:destination="@id/cityListFragment" />
+        <action
+            android:id="@+id/action_listsFragment_to_stationDetailFragment"
+            app:destination="@id/stationDetailFragment" />
+        <action
+            android:id="@+id/action_listsFragment_to_cityDetailFragment"
+            app:destination="@id/cityDetailFragment" />
+    </fragment>
 </navigation>
