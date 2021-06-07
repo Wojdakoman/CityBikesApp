@@ -35,12 +35,19 @@ class BasicViewModel(application: Application): AndroidViewModel(application) {
     fun getNetworkInfo(path: String){
         viewModelScope.launch {
             network.value = repository.getNetworkInfo(path)
-            isFav.postValue(false)
+            //check if city is saved
+            isFav.postValue(localRepository.getIsFav(network.value?.network?.id?:"null"))
         }
     }
 
     //add to fav btn click
     fun handleFavClick(){
-        isFav.postValue(!isFav.value!!)
+        viewModelScope.launch {
+            if(isFav.value!!)
+                localRepository.deleteCity(network.value?.network?.id!!)
+            else
+                localRepository.addCity(SavedCity(network.value?.network?.id!!, network.value?.network?.location?.city!!, network.value?.network?.location?.country!!, network.value?.network?.name!!))
+            isFav.postValue(!isFav.value!!)
+        }
     }
 }
