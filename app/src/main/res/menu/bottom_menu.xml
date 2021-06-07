@@ -14,6 +14,12 @@
         android:title="@string/map"
         />
 
+    <item
+        android:id="@+id/listsFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite_border"
+        android:title="@string/savedList" />
+
 
 
 </menu>

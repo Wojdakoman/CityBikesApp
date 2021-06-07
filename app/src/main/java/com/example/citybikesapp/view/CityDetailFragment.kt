@@ -34,6 +34,12 @@ class CityDetailFragment: Fragment() {
         basicViewModel = ViewModelProvider(this).get(BasicViewModel::class.java)
         basicViewModel.getNetworkInfo(args.location.href.toString())
 
+        //observe favourite status
+        basicViewModel.isFav.observe(viewLifecycleOwner, Observer {
+            if(it) btnAddToFav.setImageResource(R.drawable.ic_favorite)
+            else btnAddToFav.setImageResource(R.drawable.ic_favorite_border)
+        })
+
         return view
     }
 
@@ -48,6 +54,11 @@ class CityDetailFragment: Fragment() {
             stationList = item.network.stations as MutableList<Station>
             setAdapter()
         })
+
+        //add to favourites button click
+        btnAddToFav.setOnClickListener {
+            basicViewModel.handleFavClick()
+        }
     }
 
     private fun setAdapter(){

@@ -3,6 +3,7 @@
     <string name="app_name">CityBikesApp</string>
     <string name="cityList">City List</string>
     <string name="cityDetail">City Name</string>
+    <string name="savedList">Favourite</string>
 
     <string name="loading">Loading</string>
 
@@ -16,4 +17,6 @@
     <!-- Map Fragment -->
     <string name="map">Map</string>
     <string name="freeBikes">Free bikes:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
