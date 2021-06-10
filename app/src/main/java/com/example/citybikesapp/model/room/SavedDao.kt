@@ -20,4 +20,7 @@ interface SavedDao {
 
     @Query("DELETE FROM savedCities WHERE network_id = :id")
     suspend fun deleteCityById(id: String)
+
+    @Query("SELECT * FROM savedCities ORDER BY id DESC")
+    fun getAll(): LiveData<List<SavedCity>>
 }

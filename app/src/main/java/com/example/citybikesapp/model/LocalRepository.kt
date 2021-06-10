@@ -12,6 +12,8 @@ class LocalRepository(
         val response = savedDao.isCitySaved(cityId)
         return response != 0
     }
-    suspend fun addCity(savedCity: SavedCity) = savedDao.insertNewCity(savedCity)
-    suspend fun deleteCity(cityId: String) = savedDao.deleteCityById(cityId)
+    suspend fun addSavedCity(savedCity: SavedCity) = savedDao.insertNewCity(savedCity)
+    suspend fun deleteSavedCity(cityId: String) = savedDao.deleteCityById(cityId)
+
+    fun getSavedCities() = savedDao.getAll()
 }

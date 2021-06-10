@@ -44,9 +44,9 @@ class BasicViewModel(application: Application): AndroidViewModel(application) {
     fun handleFavClick(){
         viewModelScope.launch {
             if(isFav.value!!)
-                localRepository.deleteCity(network.value?.network?.id!!)
+                localRepository.deleteSavedCity(network.value?.network?.id!!)
             else
-                localRepository.addCity(SavedCity(network.value?.network?.id!!, network.value?.network?.location?.city!!, network.value?.network?.location?.country!!, network.value?.network?.name!!))
+                localRepository.addSavedCity(SavedCity(network.value?.network?.id!!, network.value?.network?.location?.city!!, network.value?.network?.location?.country!!, network.value?.network?.name!!))
             isFav.postValue(!isFav.value!!)
         }
     }
