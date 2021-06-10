@@ -1,5 +1,6 @@
 package com.example.citybikesapp.view
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -11,6 +12,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MapFragment : Fragment() {
 
@@ -35,6 +39,7 @@ class MapFragment : Fragment() {
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
     private val stationsNearby: ArrayList<Station> = arrayListOf()
+    private var isMapReady: Boolean = false
 
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var googleMap: GoogleMap
@@ -131,25 +136,76 @@ class MapFragment : Fragment() {
         mapFragment.getMapAsync(OnMapReadyCallback {
             googleMap = it
 
+            isMapReady = true
+
             requestPermission()
             getLastLocation()
             basicViewModel.setAPIResponse()
 
             basicViewModel.apiResponse.observe(viewLifecycleOwner, {
-                for(i in basicViewModel.apiResponse.value?.networks!!){
-                    if(isStationNearby(stationLatitude = i.location.latitude, stationLongitude = i.location.longitude)) {
+                var temp: Int = 0
+                for (i in basicViewModel.apiResponse.value?.networks!!) {
+                    if (isStationNearby(stationLatitude = i.location.latitude, stationLongitude = i.location.longitude)) {
                         basicViewModel.getNetworkInfo(i.href)
+                        temp += 1
                     }
                 }
+
+                if (temp == 0)
+                    Toast.makeText(context, "There is no stations in yours location", Toast.LENGTH_SHORT).show()
             })
 
-            basicViewModel.network.observe(viewLifecycleOwner){
-                for(i in basicViewModel.network.value?.network?.stations!!){
+            basicViewModel.network.observe(viewLifecycleOwner) {
+                for (i in basicViewModel.network.value?.network?.stations!!) {
                     stationsNearby.add(i)
                     val location = LatLng(i.latitude, i.longitude)
-                    googleMap.addMarker(MarkerOptions().position(location).title(i.name))
+                    val markerTitle: String = i.name + "\nAddress: " + i.extra.address + "\nEmpty slots: " + i.emptySlots
+                    googleMap.addMarker(MarkerOptions().position(location).title(markerTitle))
                 }
             }
+
+            googleMap.setOnMarkerClickListener{
+
+                val info: TextView = TextView(context).apply {
+                    text = it.title
+                    setPadding(16, 0, 0, 0)
+                    textSize = 15.0f
+                }
+
+                val dialog = AlertDialog.Builder(context).apply {
+                    setTitle("Station Information:")
+                    setView(info)
+                    setPositiveButton("CLOSE"){dialog, _ -> dialog.dismiss()}
+                }
+
+                dialog.show()
+
+                true
+            }
         })
+
+        val floatingButton = view.findViewById<FloatingActionButton>(R.id.getLocationButton)
+
+        floatingButton.setOnClickListener{
+            if (isMapReady){
+                googleMap.clear()
+                stationsNearby.clear()
+                requestPermission()
+                getLastLocation()
+
+                var temp: Int = 0
+                for (i in basicViewModel.apiResponse.value?.networks!!) {
+                    if (isStationNearby(stationLatitude = i.location.latitude, stationLongitude = i.location.longitude)) {
+                        basicViewModel.getNetworkInfo(i.href)
+                        temp += 1
+                    }
+                }
+
+                if (temp == 0)
+                    Toast.makeText(context, "There is no stations in yours location", Toast.LENGTH_SHORT).show()
+
+
+            }
+        }
     }
 }
