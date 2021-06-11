@@ -8,6 +8,7 @@ import com.example.citybikesapp.model.LocalRepository
 import com.example.citybikesapp.model.entity.SavedCity
 import com.example.citybikesapp.model.room.AppDatabase
 import kotlinx.coroutines.launch
+import retrofit2.awaitResponse
 
 class ListsViewModel(application: Application): AndroidViewModel(application) {
     private val localRepository = LocalRepository(AppDatabase.getDatabase(application).searchDao(), AppDatabase.getDatabase(application).savedDao())
@@ -20,6 +21,18 @@ class ListsViewModel(application: Application): AndroidViewModel(application) {
     fun deleteSavedCity(city: String){
         viewModelScope.launch {
             localRepository.deleteSavedCity(city)
+        }
+    }
+
+    fun citiesWithMatchingName(givenText: String)
+    {
+        viewModelScope.launch {
+            val response = localRepository.searchForCities(givenText).awaitResponse()
+            if(response.isSuccessful)
+            {
+                val data=response.body()!!
+                
+            }
         }
     }
 }
