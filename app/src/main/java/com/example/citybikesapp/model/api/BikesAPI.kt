@@ -3,6 +3,7 @@ package com.example.citybikesapp.model.api
 import com.example.citybikesapp.model.entity.APIResponse
 import com.example.citybikesapp.model.entity.APIResponse2
 import com.example.citybikesapp.model.entity.Network
+import com.example.citybikesapp.model.entity.SavedCity
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Response
@@ -10,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "https://api.citybik.es/"
@@ -32,4 +34,7 @@ interface BikesAPI {
 
     @GET("{href}")
     suspend fun getNetwork(@Path("href") href: String): Response<APIResponse2>
+
+    @GET("v2/networks/location/city")
+    suspend fun  getCity(@Query("query") someText: String) : Call<SavedCity>
 }
