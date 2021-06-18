@@ -32,7 +32,7 @@ class SavedCityAdapter(private val viewModel: ListsViewModel): RecyclerView.Adap
 
         //click element
         holder.itemView.setOnClickListener {
-            val action = ListsFragmentDirections.actionListsFragmentToCityDetailFragment(Location(list[position].city_name, list[position].country_name, 0.0, 0.0, "v2/networks/${list[position].network_id}"))
+            val action = ListsFragmentDirections.actionListsFragmentToCityDetailFragment(Location(list[position].city_name, list[position].country_name, 0.0, 0.0, "v2/networks/${list[position].network_id}"), list[position].city_name)
             holder.itemView.findNavController().navigate(action)
         }
 

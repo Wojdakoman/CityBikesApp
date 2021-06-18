@@ -24,6 +24,19 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
         NavigationUI.setupActionBarWithNavController(this, navController)
+
+        //toolbar titles handler
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if(destination.id == R.id.cityDetailFragment){
+                supportActionBar?.title = arguments?.get("cityName").toString()
+            } else if(destination.id == R.id.stationDetailFragment){
+                supportActionBar?.title = arguments?.get("stationName").toString()
+            }
+            /*supportActionBar?.title = when(destination.id){
+                R.id.cityDetailFragment -> arguments?.get("cityName").toString()
+                else -> getString(R.string.app_name)
+            }*/
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

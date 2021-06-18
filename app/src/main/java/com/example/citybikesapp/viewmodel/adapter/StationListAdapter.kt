@@ -29,7 +29,7 @@ class StationListAdapter: RecyclerView.Adapter<StationListAdapter.StationListHol
         holder.itemView.nameTextView.text = list[position].name
 
         holder.itemView.setOnClickListener {
-            val action = CityDetailFragmentDirections.actionCityDetailFragmentToStationDetailFragment(list[position])
+            val action = CityDetailFragmentDirections.actionCityDetailFragmentToStationDetailFragment(list[position], list[position].name)
             holder.itemView.findNavController().navigate(action)
         }
     }

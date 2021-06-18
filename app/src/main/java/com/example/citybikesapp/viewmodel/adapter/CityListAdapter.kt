@@ -33,7 +33,7 @@ class CityListAdapter: RecyclerView.Adapter<CityListAdapter.MyViewHolder>() {
 
         //kliknięcie miasta
         holder.itemView.setOnClickListener {
-            val action = CityListFragmentDirections.actionCityListFragmentToCityDetailFragment(list[position])
+            val action = CityListFragmentDirections.actionCityListFragmentToCityDetailFragment(list[position], list[position].city)
             holder.itemView.findNavController().navigate(action)
         }
     }

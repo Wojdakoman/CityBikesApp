@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/cityListFragment"
         android:name="com.example.citybikesapp.view.CityListFragment"
-        android:label="CityListFragment"
+        android:label="@string/cityList"
         tools:layout="@layout/fragment_city_list">
         <action
             android:id="@+id/action_cityListFragment_to_cityDetailFragment"
@@ -34,29 +34,34 @@
         <action
             android:id="@+id/action_cityDetailFragment_to_listsFragment"
             app:destination="@id/listsFragment" />
+        <argument
+            android:name="cityName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/stationDetailFragment"
         android:name="com.example.citybikesapp.view.StationDetailFragment"
-        android:label="StationDetailFragment"
-        tools:layout="@layout/fragment_station_detail" >
+        tools:layout="@layout/fragment_station_detail">
         <argument
             android:name="station"
             app:argType="com.example.citybikesapp.model.entity.Station" />
         <action
             android:id="@+id/action_stationDetailFragment_to_listsFragment"
             app:destination="@id/listsFragment" />
+        <argument
+            android:name="stationName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.citybikesapp.view.MapFragment"
-        android:label="fragment_map"
+        android:label="@string/map"
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/listsFragment"
         android:name="com.example.citybikesapp.view.ListsFragment"
-        android:label="fragment_lists"
-        tools:layout="@layout/fragment_lists" >
+        android:label="@string/savedList"
+        tools:layout="@layout/fragment_lists">
         <action
             android:id="@+id/action_listsFragment_to_cityListFragment"
             app:destination="@id/cityListFragment" />
