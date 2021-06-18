@@ -6,7 +6,9 @@ import com.example.citybikesapp.model.api.BikesAPI
 import com.example.citybikesapp.model.api.SafeApiRequest
 import com.example.citybikesapp.model.entity.APIResponse
 import com.example.citybikesapp.model.entity.APIResponse2
+import com.example.citybikesapp.model.entity.Location
 import com.example.citybikesapp.model.entity.Network
+import retrofit2.Call
 import retrofit2.awaitResponse
 
 class BikesRepository(private val bikesAPI: BikesAPI): SafeApiRequest() {
@@ -22,4 +24,6 @@ class BikesRepository(private val bikesAPI: BikesAPI): SafeApiRequest() {
     suspend fun getNetworkInfo(path: String): APIResponse2?{
         return BikesAPI().getNetwork(path).body()
     }
+
+
 }

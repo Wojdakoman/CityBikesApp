@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_city_list.*
 class CityListFragment: Fragment() {
     private lateinit var basicViewModel: BasicViewModel
     private val locationList = mutableListOf<Location>() //lista location
+    private val locationWithMatchingName = mutableListOf<Location>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,37 @@ class CityListFragment: Fragment() {
             locationList.sortBy{it.city}
             locationList.sortBy{it.country} //sortowanie po kraju i mieście
             setAdapter() //przekazanie danych do adaptera
+        })
+
+        citysearch.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                for(x in locationList){
+                    if(x.city.toLowerCase().contains(query!!.toLowerCase())){
+                        locationWithMatchingName.add(x)
+                    }
+                }
+                val adapter = CityListAdapter()
+                val recyclerView = cityListRecyclerView
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+                adapter.setData(locationWithMatchingName)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                locationWithMatchingName.clear()
+                for(x in locationList){
+                    if(x.city.toLowerCase().contains(newText!!.toLowerCase())){
+                        locationWithMatchingName.add(x)
+                    }
+                }
+                val adapter = CityListAdapter()
+                val recyclerView = cityListRecyclerView
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+                adapter.setData(locationWithMatchingName)
+                return true
+            }
         })
     }
 

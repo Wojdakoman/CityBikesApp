@@ -18,6 +18,8 @@ class BasicViewModel(application: Application): AndroidViewModel(application) {
     private val repository: BikesRepository = BikesRepository(BikesAPI())
     private val localRepository = LocalRepository(AppDatabase.getDatabase(application).searchDao(), AppDatabase.getDatabase(application).savedDao())
 
+
+
     var apiResponse = MutableLiveData<APIResponse>() //odpowiedź z API
     val isFav = MutableLiveData<Boolean>()
     var network = MutableLiveData<APIResponse2>()
@@ -50,4 +52,6 @@ class BasicViewModel(application: Application): AndroidViewModel(application) {
             isFav.postValue(!isFav.value!!)
         }
     }
+
+
 }
