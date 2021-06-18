@@ -63,6 +63,10 @@ class StationDetailFragment : Fragment() {
         {
             freeBikesValue.text = "No fresh data!"
         }
+
+        slotsValue.text = args.station.extra.slots.toString()
+        longitudeTV.text = args.station.longitude.toString()
+        latitudeTV.text = args.station.latitude.toString()
     }
 
     companion object {

@@ -19,4 +19,6 @@
     <string name="freeBikes">Free bikes:</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="slots">Slots:</string>
+    <string name="location">Location:</string>
 </resources>
