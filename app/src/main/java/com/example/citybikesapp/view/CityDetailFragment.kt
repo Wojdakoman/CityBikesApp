@@ -48,9 +48,10 @@ class CityDetailFragment: Fragment() {
 
         val cityCountryString = args.location.city + ", " + args.location.country
         cityNameCountryCode.text = cityCountryString
-        freeBikesValue.text = args.location.latitude.toString()
-        longitudeValue.text = args.location.longitude.toString()
+
         basicViewModel.network.observe(viewLifecycleOwner, Observer { item ->
+            companyNameValue.text = item.network.name
+
             stationList = item.network.stations as MutableList<Station>
             setAdapter()
         })

@@ -57,11 +57,11 @@ class StationDetailFragment : Fragment() {
         val difference = dateNow.time - args.station.timestamp.time
         if (difference <= 10 * 60 * 1000)
         {
-            freeBikesValue.text = args.station.freeBikes.toString()
+            companyNameValue.text = args.station.freeBikes.toString()
         }
         else
         {
-            freeBikesValue.text = "No fresh data!"
+            companyNameValue.text = "No fresh data!"
         }
 
         slotsValue.text = args.station.extra.slots.toString()
