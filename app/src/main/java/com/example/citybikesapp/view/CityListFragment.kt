@@ -1,10 +1,8 @@
 package com.example.citybikesapp.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.SearchView
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,9 +18,11 @@ class CityListFragment: Fragment() {
     private lateinit var basicViewModel: BasicViewModel
     private val locationList = mutableListOf<Location>() //lista location
     private val locationWithMatchingName = mutableListOf<Location>()
+    private val adapter = CityListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -53,18 +53,31 @@ class CityListFragment: Fragment() {
             locationList.sortBy{it.country} //sortowanie po kraju i mieście
             setAdapter() //przekazanie danych do adaptera
         })
+    }
 
-        citysearch.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+    private fun setAdapter(){
+        //ustawienia adaptera i recyclerView
+        val recyclerView = cityListRecyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        adapter.setData(locationList) //przekazanie danych do adaptera
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem = menu.findItem(R.id.btnSearch)
+        val searchView: SearchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 for(x in locationList){
                     if(x.city.toLowerCase().contains(query!!.toLowerCase())){
                         locationWithMatchingName.add(x)
                     }
                 }
-                val adapter = CityListAdapter()
-                val recyclerView = cityListRecyclerView
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
                 adapter.setData(locationWithMatchingName)
                 return true
             }
@@ -76,23 +89,9 @@ class CityListFragment: Fragment() {
                         locationWithMatchingName.add(x)
                     }
                 }
-                val adapter = CityListAdapter()
-                val recyclerView = cityListRecyclerView
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
                 adapter.setData(locationWithMatchingName)
                 return true
             }
         })
     }
-
-    private fun setAdapter(){
-        //ustawienia adaptera i recyclerView
-        val adapter = CityListAdapter()
-        val recyclerView = cityListRecyclerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-        adapter.setData(locationList) //przekazanie danych do adaptera
-    }
-
 }

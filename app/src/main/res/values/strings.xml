@@ -6,6 +6,7 @@
     <string name="savedList">Favourite</string>
 
     <string name="loading">Loading</string>
+    <string name="search">Search</string>
 
     <!--City detail-->
     <string name="latitude">Latitude</string>
